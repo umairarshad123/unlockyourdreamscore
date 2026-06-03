@@ -1489,6 +1489,97 @@
 </section>
 
 <!-- ═══════════════════════════════════════
+     PRICING
+════════════════════════════════════════ -->
+<section class="pricing-section" id="pricing">
+    <div class="section-header">
+        <span class="section-eyebrow">Investment Options</span>
+        <h2 class="section-title">Choose Your Plan</h2>
+        <p class="section-subtitle">Every plan includes 6 rounds of aggressive 3-bureau disputes. No fluff — just results.</p>
+    </div>
+
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <div class="pricing-card-title">Monthly Investment</div>
+            <div class="pricing-price">$297</div>
+            <p class="pricing-meta">$197 + $100/mo after</p>
+            <div class="pricing-divider"></div>
+            <ul class="pricing-features">
+                <li><i class="fas fa-check-circle"></i><span>Full 90-Day Credit Transformation</span></li>
+                <li><i class="fas fa-check-circle"></i><span>Aggressive 3-bureau disputes</span></li>
+                <li><i class="fas fa-check-circle"></i><span>Monthly progress updates</span></li>
+                <li><i class="fas fa-check-circle"></i><span>Cancel anytime after 90 days</span></li>
+            </ul>
+            <a href="{{ url('/checkout/monthly') }}" class="pricing-cta">Get Started Monthly</a>
+        </div>
+
+        <div class="pricing-card featured">
+            <span class="pricing-tag">Most Popular</span>
+            <div class="pricing-card-title">One-Time Investment</div>
+            <div class="pricing-price">$497</div>
+            <p class="pricing-meta">Pay once — no recurring fees</p>
+            <div class="pricing-divider"></div>
+            <ul class="pricing-features">
+                <li><i class="fas fa-check-circle"></i><span>One payment — no surprises</span></li>
+                <li><i class="fas fa-check-circle"></i><span>Priority dispute filing</span></li>
+                <li><i class="fas fa-check-circle"></i><span>Fast results in 30–45 days</span></li>
+                <li><i class="fas fa-check-circle"></i><span>Full support throughout</span></li>
+            </ul>
+            <a href="{{ url('/checkout/onetime') }}" class="pricing-cta">Pay One Time</a>
+        </div>
+
+        <div class="pricing-card">
+            <div class="pricing-card-title">Couple's Fast Sweep</div>
+            <div class="pricing-price">$900</div>
+            <p class="pricing-meta">For both partners</p>
+            <div class="pricing-divider"></div>
+            <ul class="pricing-features">
+                <li><i class="fas fa-check-circle"></i><span>Full program for both partners</span></li>
+                <li><i class="fas fa-check-circle"></i><span>Dual credit restoration setup</span></li>
+                <li><i class="fas fa-check-circle"></i><span>Coordinated 3-bureau attacks</span></li>
+                <li><i class="fas fa-check-circle"></i><span>Shared funding preparation</span></li>
+            </ul>
+            <a href="{{ url('/checkout/couple') }}" class="pricing-cta">Start Couple Plan</a>
+        </div>
+    </div>
+
+    <p style="text-align:center;margin-top:32px;color:var(--gray);font-size:14px;">
+        * All plans require Smart Credit activation ($39/month) to begin service.
+        <a href="#process" style="color:var(--gold);text-decoration:underline;margin-left:4px;">Learn more</a>
+    </p>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOUNDER SECTION
+════════════════════════════════════════ -->
+<section class="founder-section" id="about">
+    <div class="founder-content">
+        <div class="founder-text">
+            <h2 class="founder-title">Meet Your Credit Expert</h2>
+            <p class="founder-sub">The person behind your transformation</p>
+            <div class="founder-body">
+                <p>Welcome to DreamScore! I'm Taletha, and I founded DreamScore out of a genuine passion for helping people unlock their financial potential. My journey into credit repair began with a simple realization: so many people have dreams that feel out of reach — not because they lack ambition, but because they need a trusted guide to help rebuild their credit and reclaim their financial freedom.</p>
+                <p>I created DreamScore to be that guide. With a background in financial services and a commitment to empowering others, I built a place where clients feel supported, educated, and confident in their financial future.</p>
+                <p>At DreamScore, we believe in turning credit scores into stepping stones toward your biggest goals — whether that's owning a home, starting a business, or simply feeling in control of your money. Thank you for letting us be part of your story.</p>
+            </div>
+            <ul class="founder-highlights">
+                <li><i class="fas fa-check-circle"></i> Helped thousands of clients rebuild their credit</li>
+                <li><i class="fas fa-check-circle"></i> Expert in 3-bureau dispute strategies</li>
+                <li><i class="fas fa-check-circle"></i> Committed to real results — not empty promises</li>
+            </ul>
+        </div>
+        <div class="founder-image">
+            <div class="image-wrapper">
+                <img src="{{ asset('images/Founder.jpg') }}" alt="Taletha Crow — Credit Expert" class="founder-photo">
+                <div class="image-badge">
+                    <span class="badge-text">Taletha Crow — Founder, DreamScore</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════
      WHAT HAPPENS AFTER PURCHASE
 ════════════════════════════════════════ -->
 <section class="purchase-section" id="process">
@@ -1645,67 +1736,6 @@
 </section>
 
 <!-- ═══════════════════════════════════════
-     PRICING
-════════════════════════════════════════ -->
-<section class="pricing-section" id="pricing">
-    <div class="section-header">
-        <span class="section-eyebrow">Investment Options</span>
-        <h2 class="section-title">Choose Your Plan</h2>
-        <p class="section-subtitle">Every plan includes 6 rounds of aggressive 3-bureau disputes. No fluff — just results.</p>
-    </div>
-
-    <div class="pricing-grid">
-        <div class="pricing-card">
-            <div class="pricing-card-title">Monthly Investment</div>
-            <div class="pricing-price">$297</div>
-            <p class="pricing-meta">$197 + $100/mo after</p>
-            <div class="pricing-divider"></div>
-            <ul class="pricing-features">
-                <li><i class="fas fa-check-circle"></i><span>Full 90-Day Credit Transformation</span></li>
-                <li><i class="fas fa-check-circle"></i><span>Aggressive 3-bureau disputes</span></li>
-                <li><i class="fas fa-check-circle"></i><span>Monthly progress updates</span></li>
-                <li><i class="fas fa-check-circle"></i><span>Cancel anytime after 90 days</span></li>
-            </ul>
-            <a href="{{ url('/checkout/monthly') }}" class="pricing-cta">Get Started Monthly</a>
-        </div>
-
-        <div class="pricing-card featured">
-            <span class="pricing-tag">Most Popular</span>
-            <div class="pricing-card-title">One-Time Investment</div>
-            <div class="pricing-price">$497</div>
-            <p class="pricing-meta">Pay once — no recurring fees</p>
-            <div class="pricing-divider"></div>
-            <ul class="pricing-features">
-                <li><i class="fas fa-check-circle"></i><span>One payment — no surprises</span></li>
-                <li><i class="fas fa-check-circle"></i><span>Priority dispute filing</span></li>
-                <li><i class="fas fa-check-circle"></i><span>Fast results in 30–45 days</span></li>
-                <li><i class="fas fa-check-circle"></i><span>Full support throughout</span></li>
-            </ul>
-            <a href="{{ url('/checkout/onetime') }}" class="pricing-cta">Pay One Time</a>
-        </div>
-
-        <div class="pricing-card">
-            <div class="pricing-card-title">Couple's Fast Sweep</div>
-            <div class="pricing-price">$900</div>
-            <p class="pricing-meta">For both partners</p>
-            <div class="pricing-divider"></div>
-            <ul class="pricing-features">
-                <li><i class="fas fa-check-circle"></i><span>Full program for both partners</span></li>
-                <li><i class="fas fa-check-circle"></i><span>Dual credit restoration setup</span></li>
-                <li><i class="fas fa-check-circle"></i><span>Coordinated 3-bureau attacks</span></li>
-                <li><i class="fas fa-check-circle"></i><span>Shared funding preparation</span></li>
-            </ul>
-            <a href="{{ url('/checkout/couple') }}" class="pricing-cta">Start Couple Plan</a>
-        </div>
-    </div>
-
-    <p style="text-align:center;margin-top:32px;color:var(--gray);font-size:14px;">
-        * All plans require Smart Credit activation ($39/month) to begin service.
-        <a href="#process" style="color:var(--gold);text-decoration:underline;margin-left:4px;">Learn more</a>
-    </p>
-</section>
-
-<!-- ═══════════════════════════════════════
      FAQ
 ════════════════════════════════════════ -->
 <section class="faq-section" id="faq">
@@ -1783,56 +1813,6 @@
             </button>
             <div class="faq-answer">
                 <div class="faq-answer-inner">It's simple: (1) Select a plan above, (2) Activate Smart Credit ($39/month) immediately after purchase, (3) Complete your onboarding form and submit required documents, (4) We begin your first round of disputes. That's it — we handle everything from there.</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══════════════════════════════════════
-     BOOKING CALENDAR
-════════════════════════════════════════ -->
-<section class="booking-section" id="booking">
-    <div class="booking-container">
-        <div class="section-header">
-            <span class="section-eyebrow">Book a Call</span>
-            <h2 class="section-title">Schedule Your Free Consultation</h2>
-            <p class="section-subtitle">Pick a time that works for you — let's talk about your credit goals.</p>
-        </div>
-        <div class="calendar-wrapper">
-            <iframe src="https://api.leadconnectorhq.com/widget/booking/EzwplJXjhDjj4GFSqiXG"
-                    style="width:100%;height:600px;border:none;overflow:hidden;"
-                    scrolling="no"
-                    id="EzwplJXjhDjj4GFSqiXG_1757457924974">
-            </iframe>
-        </div>
-    </div>
-</section>
-
-<!-- ═══════════════════════════════════════
-     FOUNDER SECTION
-════════════════════════════════════════ -->
-<section class="founder-section" id="about">
-    <div class="founder-content">
-        <div class="founder-text">
-            <h2 class="founder-title">Meet Your Credit Expert</h2>
-            <p class="founder-sub">The person behind your transformation</p>
-            <div class="founder-body">
-                <p>Welcome to DreamScore! I'm Taletha, and I founded DreamScore out of a genuine passion for helping people unlock their financial potential. My journey into credit repair began with a simple realization: so many people have dreams that feel out of reach — not because they lack ambition, but because they need a trusted guide to help rebuild their credit and reclaim their financial freedom.</p>
-                <p>I created DreamScore to be that guide. With a background in financial services and a commitment to empowering others, I built a place where clients feel supported, educated, and confident in their financial future.</p>
-                <p>At DreamScore, we believe in turning credit scores into stepping stones toward your biggest goals — whether that's owning a home, starting a business, or simply feeling in control of your money. Thank you for letting us be part of your story.</p>
-            </div>
-            <ul class="founder-highlights">
-                <li><i class="fas fa-check-circle"></i> Helped thousands of clients rebuild their credit</li>
-                <li><i class="fas fa-check-circle"></i> Expert in 3-bureau dispute strategies</li>
-                <li><i class="fas fa-check-circle"></i> Committed to real results — not empty promises</li>
-            </ul>
-        </div>
-        <div class="founder-image">
-            <div class="image-wrapper">
-                <img src="{{ asset('images/Founder.jpg') }}" alt="Taletha Crow — Credit Expert" class="founder-photo">
-                <div class="image-badge">
-                    <span class="badge-text">Taletha Crow — Founder, DreamScore</span>
-                </div>
             </div>
         </div>
     </div>
