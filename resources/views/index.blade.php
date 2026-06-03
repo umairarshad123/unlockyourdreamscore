@@ -55,7 +55,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .logo img { width: 160px; height: auto; display: block; }
+        .logo img { width: 160px; height: auto; display: block; filter: brightness(0) invert(1); }
         .nav-collapse {
             display: flex;
             align-items: center;
@@ -1915,30 +1915,6 @@
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════
-     LEAD CTA
-════════════════════════════════════════ -->
-<section class="lead-cta-section" id="lead-cta">
-    <div class="lead-cta-container">
-        <div class="lead-cta-copy">
-            <h2 class="lead-cta-title">Ready to <span>Transform Your Credit</span> and Take Control?</h2>
-            <p class="lead-cta-subtitle">Get a free, no-obligation credit consultation. We'll show you exactly which negative items can come off — and how fast. No pressure, no hard pull.</p>
-        </div>
-        <form id="leadCtaForm" class="lead-cta-form" novalidate>
-            <div class="lead-cta-row">
-                <input type="text"  name="first_name" placeholder="First Name" required class="lead-cta-input">
-                <input type="text"  name="last_name"  placeholder="Last Name"  required class="lead-cta-input">
-            </div>
-            <input type="email" name="email" placeholder="Email Address" required class="lead-cta-input">
-            <input type="tel"   name="phone" placeholder="Phone Number"  required class="lead-cta-input">
-            <button type="submit" class="lead-cta-submit">
-                <span class="btn-label">Get My Free Consultation</span>
-                <span class="btn-spinner" hidden>Sending…</span>
-            </button>
-            <p class="lead-cta-msg" role="status" aria-live="polite"></p>
-        </form>
-    </div>
-</section>
 
 <!-- ═══════════════════════════════════════
      FINAL CTA
