@@ -1799,7 +1799,7 @@
             The Credit Repair Company That Actually Delivers
         </div>
 
-        <h1 class="hero-title">Join the Credit Repair Company<br>That Delivers <span class="hero-title-gold-inline">Results.</span></h1>
+        <h1 class="hero-title">Get With the Credit Repair Company<br>That Actually Delivers <span class="hero-title-gold-inline">Results — Not Excuses.</span></h1>
         <div class="hero-divider"></div>
 
         <p class="hero-subtitle">
