@@ -1338,6 +1338,318 @@
         }
         .btn-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
         @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+        /* ════════════════════════════════════════
+           SCROLL ANIMATIONS
+        ════════════════════════════════════════ */
+        [data-anim] {
+            opacity: 0;
+            transition: opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1);
+        }
+        [data-anim="up"]    { transform: translateY(48px); }
+        [data-anim="left"]  { transform: translateX(-52px); }
+        [data-anim="right"] { transform: translateX(52px); }
+        [data-anim="scale"] { transform: scale(.88); }
+        [data-anim="fade"]  { transform: none; }
+        [data-anim].anim-in { opacity: 1; transform: none; }
+
+        /* stagger delays for grid children */
+        [data-stagger] > * {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
+        }
+        [data-stagger].anim-in > *:nth-child(1)  { opacity:1;transform:none;transition-delay:.04s }
+        [data-stagger].anim-in > *:nth-child(2)  { opacity:1;transform:none;transition-delay:.11s }
+        [data-stagger].anim-in > *:nth-child(3)  { opacity:1;transform:none;transition-delay:.18s }
+        [data-stagger].anim-in > *:nth-child(4)  { opacity:1;transform:none;transition-delay:.25s }
+        [data-stagger].anim-in > *:nth-child(5)  { opacity:1;transform:none;transition-delay:.32s }
+        [data-stagger].anim-in > *:nth-child(6)  { opacity:1;transform:none;transition-delay:.39s }
+        [data-stagger].anim-in > *:nth-child(7)  { opacity:1;transform:none;transition-delay:.46s }
+        [data-stagger].anim-in > *:nth-child(8)  { opacity:1;transform:none;transition-delay:.53s }
+        [data-stagger].anim-in > *:nth-child(9)  { opacity:1;transform:none;transition-delay:.60s }
+        [data-stagger].anim-in > *:nth-child(10) { opacity:1;transform:none;transition-delay:.67s }
+        [data-stagger].anim-in > *:nth-child(11) { opacity:1;transform:none;transition-delay:.74s }
+        [data-stagger].anim-in > *:nth-child(12) { opacity:1;transform:none;transition-delay:.81s }
+
+        /* ════════════════════════════════════════
+           AMBIENT GLOW EFFECTS
+        ════════════════════════════════════════ */
+        @keyframes pulseGlow {
+            0%,100% { box-shadow: 0 0 0 0 rgba(201,168,76,.4); }
+            50%      { box-shadow: 0 0 0 10px rgba(201,168,76,0); }
+        }
+        @keyframes spinBorder {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes floatUp {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-8px); }
+        }
+        @keyframes gradientShift {
+            0%,100% { background-position: 0% 50%; }
+            50%      { background-position: 100% 50%; }
+        }
+        @keyframes glowPulse {
+            0%,100% { opacity: .6; }
+            50%      { opacity: 1; }
+        }
+        @keyframes lineGrow {
+            from { width: 0; }
+            to   { width: 60px; }
+        }
+        @keyframes borderTrace {
+            0%   { background-position: 0% 0%; }
+            100% { background-position: 400% 0%; }
+        }
+        @keyframes scoreCount {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Section header accent underline */
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            margin: 12px auto 0;
+            border-radius: 2px;
+            transition: width .8s cubic-bezier(.16,1,.3,1);
+        }
+        [data-anim].anim-in .section-title::after,
+        .section-title.anim-in::after { width: 60px; }
+
+        /* Remove item glow on hover */
+        .remove-item:hover .remove-check {
+            background: linear-gradient(135deg, var(--gold), #a07010);
+            color: #000;
+            border-color: var(--gold);
+            box-shadow: 0 0 16px rgba(201,168,76,.5);
+            animation: pulseGlow .8s ease-out;
+        }
+
+        /* Step card animated left border */
+        .step-card {
+            position: relative;
+        }
+        .step-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            border-radius: 3px 0 0 3px;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform .6s cubic-bezier(.16,1,.3,1);
+        }
+        .step-card:hover::before { transform: scaleY(1); }
+        .step-num { animation: floatUp 4s ease-in-out infinite; }
+        .step-card:nth-child(2) .step-num { animation-delay: .5s; }
+        .step-card:nth-child(3) .step-num { animation-delay: 1s; }
+        .step-card:nth-child(4) .step-num { animation-delay: 1.5s; }
+
+        /* Testimonial card top shimmer line */
+        .testimonial-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; right: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            transition: all .6s cubic-bezier(.16,1,.3,1);
+        }
+        .testimonial-card:hover::after { left: 0; right: 0; }
+
+        /* Pricing featured card animated border */
+        .pricing-card.featured {
+            position: relative;
+        }
+        .pricing-card.featured::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: conic-gradient(from 0deg, var(--gold), #00d4ff, #8b5cf6, var(--gold));
+            border-radius: 22px;
+            z-index: -1;
+            animation: spinBorder 5s linear infinite;
+        }
+
+        /* FAQ hover line */
+        .faq-question::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 50%; transform: translateY(-50%);
+            width: 3px; height: 0;
+            background: var(--gold);
+            border-radius: 2px;
+            transition: height .3s;
+        }
+        .faq-item.open .faq-question::before { height: 60%; }
+
+        /* Scroll-to-top floating */
+        #scrollTopBtn { animation: floatUp 3s ease-in-out infinite; }
+
+        /* Final CTA ambient orbs */
+        .final-cta::after {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(201,168,76,.08) 0%, transparent 70%);
+            bottom: -100px; right: -100px;
+            pointer-events: none;
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        /* ════════════════════════════════════════
+           MOBILE RESPONSIVE — COMPREHENSIVE
+        ════════════════════════════════════════ */
+
+        /* Popup mobile */
+        @media (max-width: 600px) {
+            .credit-popup-content {
+                max-width: 100%;
+                width: 100%;
+                height: auto;
+                max-height: 90vh;
+                border-radius: 20px 20px 0 0;
+                position: fixed;
+                bottom: 0; left: 0; right: 0;
+                transform: translateY(100%) !important;
+                transition: transform .45s cubic-bezier(.16,1,.3,1) !important;
+            }
+            .credit-popup-overlay.popup-active {
+                align-items: flex-end;
+                padding: 0;
+            }
+            .credit-popup-overlay.popup-show .credit-popup-content {
+                transform: translateY(0) !important;
+            }
+            .credit-popup-header { padding: 18px 16px; }
+            .credit-popup-title  { font-size: 17px; }
+            .credit-popup-body   { padding: 16px; }
+            .credit-step-question { font-size: 16px; margin-bottom: 20px; }
+            .credit-option-button { font-size: 14px; padding: 12px 14px; min-height: 46px; }
+            .credit-popup-navigation { flex-direction: column; gap: 8px; }
+            .credit-nav-btn { padding: 14px; font-size: 14px; }
+        }
+
+        /* Nav */
+        @media (max-width: 600px) {
+            .nav-container { padding: 0 16px; }
+            .logo img { width: 130px; }
+        }
+
+        /* Hero mobile */
+        @media (max-width: 520px) {
+            .hero { padding: 88px 16px 56px; }
+            .hero-eyebrow { font-size: 9px; letter-spacing: 2px; padding: 6px 14px; }
+            .hero-title { font-size: clamp(26px, 7vw, 42px); letter-spacing: -1px; }
+            .hero-title-gold-inline { display: block; }
+            .hero-divider { margin-bottom: 16px; }
+            .hero-subtitle { font-size: 14px; margin-bottom: 28px; }
+            .hero-stats { flex-direction: column; gap: 0; border-radius: 12px; }
+            .hero-stat { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+            .hero-stat:last-child { border-bottom: none; }
+            .hero-stat + .hero-stat::before { display: none; }
+            .hero-stat-num { font-size: 28px; }
+            .hero-buttons { gap: 10px; }
+            .btn-gold, .btn-outline-gold { font-size: 13px; padding: 15px 24px; }
+        }
+
+        /* Remove section mobile */
+        @media (max-width: 560px) {
+            .remove-section { padding: 70px 16px; }
+            .section-header { margin-bottom: 40px; }
+            .section-title { font-size: clamp(26px, 6vw, 40px); }
+            .section-subtitle { font-size: 15px; }
+        }
+
+        /* Step cards mobile */
+        @media (max-width: 560px) {
+            .purchase-section { padding: 70px 16px; }
+            .step-card { padding: 24px 20px; }
+            .step-num { font-size: 40px; }
+            .step-title { font-size: 17px; }
+            .step-list li { font-size: 13px; }
+            .step-docs-title { font-size: 11px; }
+        }
+
+        /* Testimonials mobile */
+        @media (max-width: 560px) {
+            .testimonials-section { padding: 70px 16px; }
+            .testimonials-grid { grid-template-columns: 1fr; gap: 16px; }
+            .testimonial-text { font-size: 14px; }
+            .score-value { font-size: 26px; }
+        }
+
+        /* Pricing mobile */
+        @media (max-width: 560px) {
+            .pricing-section { padding: 70px 16px; }
+            .pricing-price { font-size: 48px; }
+            .pricing-card { padding: 32px 22px; }
+        }
+
+        /* FAQ mobile */
+        @media (max-width: 560px) {
+            .faq-section { padding: 70px 16px; }
+            .faq-question { font-size: 14px; padding: 16px 18px; }
+            .faq-answer-inner { font-size: 13px; padding: 0 18px 16px; }
+        }
+
+        /* Founder mobile */
+        @media (max-width: 900px) {
+            .founder-section { padding: 70px 20px; }
+        }
+        @media (max-width: 560px) {
+            .founder-section { padding: 70px 16px; }
+            .founder-title { font-size: clamp(26px, 6vw, 38px); }
+            .founder-role { font-size: 13px; }
+            .founder-body { font-size: 14px; }
+            .founder-highlights li { font-size: 13px; }
+        }
+
+        /* Final CTA mobile */
+        @media (max-width: 560px) {
+            .final-cta { padding: 80px 16px; }
+            .final-title { font-size: clamp(28px, 7vw, 44px); letter-spacing: -1px; }
+            .final-subtitle { font-size: 15px; }
+            .final-actions { flex-direction: column; align-items: center; gap: 10px; }
+            .final-actions .btn-gold,
+            .final-actions .btn-outline-gold { width: 100%; max-width: 340px; justify-content: center; }
+            .final-proof { gap: 12px; font-size: 12px; }
+        }
+
+        /* Footer mobile */
+        @media (max-width: 560px) {
+            footer { padding: 50px 16px 24px; }
+            .footer-description { font-size: 13px; }
+        }
+
+        /* Process steps mobile timeline */
+        @media (max-width: 560px) {
+            .step-important { padding: 14px 16px; }
+            .step-important ul li { font-size: 12px; }
+            .step-important-title { font-size: 10px; }
+            .step-verdict { font-size: 10px; }
+            .step-warning { padding: 12px 14px; }
+            .step-warning-item { font-size: 12px; }
+            .step-price { font-size: 13px; }
+            .step-mandatory { font-size: 10px; }
+        }
+
+        /* Modal form mobile */
+        @media (max-width: 560px) {
+            .modal-content { border-radius: 16px; }
+            .modal-title { font-size: 20px; }
+            .modal-body { padding: 20px; }
+        }
+
+        /* Scrollbar thin */
+        @media (max-width: 600px) {
+            ::-webkit-scrollbar { width: 2px; }
+        }
     </style>
 </head>
 <body>
@@ -1527,13 +1839,13 @@
      WHAT WE CAN REMOVE
 ════════════════════════════════════════ -->
 <section class="remove-section" id="remove">
-    <div class="section-header">
+    <div class="section-header" data-anim="up">
         <span class="section-eyebrow">Negative Items We Target</span>
         <h2 class="section-title">What We Can Remove</h2>
         <p class="section-subtitle">We dispute every type of negative item across all 3 credit bureaus — simultaneously.</p>
     </div>
 
-    <div class="remove-grid">
+    <div class="remove-grid" data-stagger>
         <div class="remove-item">
             <div class="remove-check"><i class="fas fa-check"></i></div>
             <span class="remove-text">Foreclosures</span>
@@ -1589,13 +1901,13 @@
      PRICING
 ════════════════════════════════════════ -->
 <section class="pricing-section" id="pricing">
-    <div class="section-header">
+    <div class="section-header" data-anim="up">
         <span class="section-eyebrow">Investment Options</span>
         <h2 class="section-title">Choose Your Plan</h2>
         <p class="section-subtitle">Every plan includes 6 rounds of aggressive 3-bureau disputes. No fluff — just results.</p>
     </div>
 
-    <div class="pricing-grid">
+    <div class="pricing-grid" data-stagger>
         <div class="pricing-card">
             <div class="pricing-card-title">Monthly Investment</div>
             <div class="pricing-price">$297</div>
@@ -1651,7 +1963,7 @@
 ════════════════════════════════════════ -->
 <section class="founder-section" id="about">
     <div class="founder-content">
-        <div class="founder-text">
+        <div class="founder-text" data-anim="left">
             <h2 class="founder-title">Meet Your Credit Expert</h2>
             <p class="founder-sub">The person behind your transformation</p>
             <div class="founder-body">
@@ -1665,7 +1977,7 @@
                 <li><i class="fas fa-check-circle"></i> Committed to real results — not empty promises</li>
             </ul>
         </div>
-        <div class="founder-image">
+        <div class="founder-image" data-anim="right">
             <div class="image-wrapper">
                 <img src="{{ asset('images/Founder.jpg') }}" alt="Taletha Crow — Credit Expert" class="founder-photo">
                 <div class="image-badge">
@@ -1680,13 +1992,13 @@
      WHAT HAPPENS AFTER PURCHASE
 ════════════════════════════════════════ -->
 <section class="purchase-section" id="process">
-    <div class="section-header">
+    <div class="section-header" data-anim="up">
         <span class="section-eyebrow">Your Roadmap</span>
         <h2 class="section-title">What Happens<br><span style="color:var(--gold)">After Purchase?</span></h2>
         <p class="section-subtitle">Follow these steps exactly — every step is required to start your service.</p>
     </div>
 
-    <div class="purchase-steps">
+    <div class="purchase-steps" data-stagger>
         <!-- Step 01 -->
         <div class="step-card">
             <div class="step-num">01</div>
@@ -1763,13 +2075,13 @@
      TESTIMONIALS
 ════════════════════════════════════════ -->
 <section class="testimonials-section" id="testimonials">
-    <div class="section-header">
+    <div class="section-header" data-anim="up">
         <span class="section-eyebrow">Client Results</span>
         <h2 class="section-title">Real People. Real Results.</h2>
         <p class="section-subtitle">We show receipts — not just promises. Here's what our clients have achieved.</p>
     </div>
 
-    <div class="testimonials-grid">
+    <div class="testimonials-grid" data-stagger>
         <div class="testimonial-card">
             <div class="stars">★★★★★</div>
             <p class="testimonial-text">"DreamScore removed 17 negative items including a bankruptcy. My score went from 372 to 719 in just 45 days!"</p>
@@ -1836,13 +2148,13 @@
      FAQ
 ════════════════════════════════════════ -->
 <section class="faq-section" id="faq">
-    <div class="section-header">
+    <div class="section-header" data-anim="up">
         <span class="section-eyebrow">Still Not Sure?</span>
         <h2 class="section-title">Frequently Asked Questions</h2>
         <p class="section-subtitle">Everything you need to know before you get started.</p>
     </div>
 
-    <div class="faq-container">
+    <div class="faq-container" data-stagger>
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
                 Do I need a consultation before purchasing?
@@ -1920,7 +2232,7 @@
      FINAL CTA
 ════════════════════════════════════════ -->
 <section class="final-cta">
-    <div class="final-container">
+    <div class="final-container" data-anim="up">
         <span class="final-eyebrow">Stop Waiting — Start Winning</span>
         <h2 class="final-title">Every Day You Wait Is<br><span>Money You're Losing.</span></h2>
         <p class="final-subtitle">Thousands of clients have already fixed their credit and unlocked opportunities they once thought were impossible. You're next.</p>
@@ -2127,6 +2439,49 @@ setTimeout(function() {
         });
     }
 }, 1200);
+
+// ── Scroll-triggered animations (data-anim + data-stagger) ──
+(function() {
+    var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('anim-in');
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('[data-anim], [data-stagger]').forEach(function(el) {
+        io.observe(el);
+    });
+})();
+
+// ── Testimonial score counter on scroll ───────────────────
+(function() {
+    var done = false;
+    function countScores() {
+        if (done) return;
+        var section = document.querySelector('.testimonials-section');
+        if (!section) return;
+        if (section.getBoundingClientRect().top < window.innerHeight * 0.85) {
+            done = true;
+            document.querySelectorAll('.score-value').forEach(function(el) {
+                var target = parseInt(el.textContent.trim(), 10);
+                if (isNaN(target)) return;
+                var start = performance.now();
+                var duration = 1400;
+                (function step(now) {
+                    var p = Math.min((now - start) / duration, 1);
+                    var e = 1 - Math.pow(1 - p, 3);
+                    el.textContent = Math.floor(e * target);
+                    if (p < 1) requestAnimationFrame(step);
+                    else el.textContent = target;
+                })(start);
+            });
+        }
+    }
+    window.addEventListener('scroll', countScores, { passive: true });
+})();
 
 // ── Navbar scroll ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
