@@ -1,0 +1,40 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# ─── Block sensitive Laravel files/folders from public access ───
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(env|json|lock|md|xml|sqlite|sqlite-journal|log)$">
+    Require all denied
+</FilesMatch>
+
+RedirectMatch 404 /vendor(/.*)?$
+RedirectMatch 404 /storage(/.*)?$
+RedirectMatch 404 /bootstrap(/.*)?$
+RedirectMatch 404 /config(/.*)?$
+RedirectMatch 404 /database(/.*)?$
+RedirectMatch 404 /routes(/.*)?$
+RedirectMatch 404 /tests(/.*)?$
+RedirectMatch 404 /resources(/.*)?$
+RedirectMatch 404 /app(/.*)?$
