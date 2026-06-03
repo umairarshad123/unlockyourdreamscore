@@ -233,13 +233,21 @@
             flex-shrink: 0;
         }
         .hero-title {
-            font-size: clamp(58px, 9.5vw, 108px);
+            font-size: clamp(32px, 5.5vw, 70px);
             font-weight: 900;
-            line-height: .9;
-            letter-spacing: -4px;
-            margin-bottom: 4px;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
             opacity: 0;
             animation: heroSlideUp .9s .3s cubic-bezier(.16,1,.3,1) forwards;
+        }
+        .hero-title-gold-inline {
+            background: linear-gradient(135deg, #d4a017 0%, #ffc822 40%, #d4a017 70%, #a07010 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200%;
+            animation: heroShimmer 4s 1.6s ease-in-out infinite;
         }
         .hero-title-gold {
             display: block;
@@ -253,8 +261,6 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             background-size: 200%;
-            opacity: 0;
-            animation: heroSlideUp .9s .45s cubic-bezier(.16,1,.3,1) forwards, heroShimmer 4s 1.6s ease-in-out infinite;
         }
         .hero-divider {
             width: 60px;
@@ -1481,8 +1487,7 @@
             The Credit Repair Company That Actually Delivers
         </div>
 
-        <h1 class="hero-title">Results.</h1>
-        <span class="hero-title-gold">Not Excuses.</span>
+        <h1 class="hero-title">Join the Credit Repair Company<br>That Delivers <span class="hero-title-gold-inline">Results.</span></h1>
         <div class="hero-divider"></div>
 
         <p class="hero-subtitle">
@@ -1499,8 +1504,8 @@
                 <span class="hero-stat-label">Debt Removed</span>
             </div>
             <div class="hero-stat">
-                <span class="hero-stat-num" data-target="6" data-suffix=" Rounds">0</span>
-                <span class="hero-stat-label">of Disputes</span>
+                <span class="hero-stat-num" data-target="6" data-suffix="">0</span>
+                <span class="hero-stat-label">Dispute Rounds</span>
             </div>
         </div>
 
