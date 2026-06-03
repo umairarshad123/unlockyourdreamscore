@@ -3088,7 +3088,7 @@ background: black;
                 </h1>
                 
                 <p class="hero-subtitle">
-                    Erase negative marks fast, rebuild your score, and unlock $150K+ in funding opportunities most people only dream about.
+                    Add negative marks fast, rebuild your score, and unlock $150K+ in funding opportunities most people only dream about.
                 </p>
                 
                 <div class="hero-features">
