@@ -1,0 +1,1 @@
+auto-deploy test marker - if this file appears in public_html, the cron deploy works
