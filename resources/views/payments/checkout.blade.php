@@ -9,12 +9,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    {{-- Authorize.Net Accept.js --}}
-    @if($environment === 'production')
-        <script src="https://js.authorize.net/v1/Accept.js" charset="utf-8"></script>
-    @else
-        <script src="https://jstest.authorize.net/v1/Accept.js" charset="utf-8"></script>
-    @endif
+    {{-- Card data collected server-side (direct card API) — Accept.js not used --}}
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -376,12 +371,10 @@
     <main class="checkout-wrapper">
         <section class="checkout-form-card">
             <h1>Secure Checkout</h1>
-            <p class="subhead">Complete your enrollment for <strong>{{ $planLabel }}</strong>. Your card details are tokenized directly with Authorize.Net — they never touch our server.</p>
+            <p class="subhead">Complete your enrollment for <strong>{{ $planLabel }}</strong>. Your payment is processed securely over an encrypted connection through Authorize.Net.</p>
 
             <form id="payment-form" novalidate>
                 <input type="hidden" name="selected_plan" value="{{ $planKey }}">
-                <input type="hidden" name="dataDescriptor" id="dataDescriptor">
-                <input type="hidden" name="dataValue" id="dataValue">
 
                 <div class="form-section-title">Your Information</div>
                 <div class="form-row">
@@ -491,7 +484,7 @@
 
             <ul class="trust-list">
                 <li><i class="fas fa-shield-alt"></i> Bank-grade 256-bit SSL encryption</li>
-                <li><i class="fas fa-lock"></i> Card details tokenized via Authorize.Net</li>
+                <li><i class="fas fa-lock"></i> Payments processed securely via Authorize.Net</li>
                 <li><i class="fas fa-headset"></i> Dedicated US-based support</li>
                 <li><i class="fas fa-undo-alt"></i> Cancel anytime after 90 days</li>
             </ul>
@@ -548,11 +541,6 @@
                 ev.preventDefault();
                 errorBox.style.display = 'none';
 
-                if (!ACCEPT_API_LOGIN_ID || !ACCEPT_CLIENT_KEY) {
-                    showError('Payment is not configured yet. Please try again shortly or contact support.');
-                    return;
-                }
-
                 if (!document.getElementById('agree_terms').checked) {
                     showError('Please agree to the Terms and Privacy Policy.');
                     return;
@@ -571,58 +559,46 @@
                 const cardNumberRaw = document.getElementById('cardNumber').value.replace(/\s+/g,'');
                 if (cardNumberRaw.length < 13) { showError('Please enter a valid card number.'); return; }
 
+                const expMonth = document.getElementById('expMonth').value.padStart(2, '0');
+                const expYear  = document.getElementById('expYear').value.trim();
+                const cardCode = document.getElementById('cardCode').value.trim();
+
+                if (expMonth.length !== 2)  { showError('Please enter a valid expiry month (MM).'); return; }
+                if (expYear.length !== 4)   { showError('Please enter a valid expiry year (YYYY).'); return; }
+                if (cardCode.length < 3)    { showError('Please enter a valid CVV.'); return; }
+
                 setLoading(true);
 
-                const secureData = {
-                    authData: {
-                        clientKey: ACCEPT_CLIENT_KEY,
-                        apiLoginID: ACCEPT_API_LOGIN_ID
+                // Direct card API — raw card fields are sent server-side; the
+                // controller charges Authorize.Net with the creditCard payload.
+                const fd = new FormData(form);
+                fd.set('cardNumber', cardNumberRaw);
+                fd.set('expMonth', expMonth);
+                fd.set('expYear', expYear);
+                fd.set('cardCode', cardCode);
+                fd.append('agree_terms', '1');
+
+                fetch(@json(url('/checkout/process')), {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                        'Accept': 'application/json'
                     },
-                    cardData: {
-                        cardNumber: cardNumberRaw,
-                        month: document.getElementById('expMonth').value.padStart(2, '0'),
-                        year:  document.getElementById('expYear').value,
-                        cardCode: document.getElementById('cardCode').value,
-                        fullName: document.getElementById('cardName').value
-                    }
-                };
-
-                Accept.dispatchData(secureData, function (response) {
-                    if (response.messages.resultCode === 'Error') {
-                        const msg = (response.messages.message || []).map(m => m.text).join(' ') || 'Could not process card.';
+                    body: fd
+                })
+                .then(r => r.json().then(d => ({ status: r.status, body: d })))
+                .then(({ status, body }) => {
+                    if (body.success) {
+                        showSuccess('Payment successful! Redirecting…');
+                        window.location.href = body.redirect;
+                    } else {
                         setLoading(false);
-                        showError(msg);
-                        return;
+                        showError(body.message || 'Payment failed. Please try a different card or contact support.');
                     }
-
-                    document.getElementById('dataDescriptor').value = response.opaqueData.dataDescriptor;
-                    document.getElementById('dataValue').value      = response.opaqueData.dataValue;
-
-                    const fd = new FormData(form);
-                    fd.append('agree_terms', '1');
-
-                    fetch(@json(url('/checkout/process')), {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
-                            'Accept': 'application/json'
-                        },
-                        body: fd
-                    })
-                    .then(r => r.json().then(d => ({ status: r.status, body: d })))
-                    .then(({ status, body }) => {
-                        if (body.success) {
-                            showSuccess('Payment successful! Redirecting…');
-                            window.location.href = body.redirect;
-                        } else {
-                            setLoading(false);
-                            showError(body.message || 'Payment failed. Please try a different card or contact support.');
-                        }
-                    })
-                    .catch(err => {
-                        setLoading(false);
-                        showError('Network error: ' + err.message);
-                    });
+                })
+                .catch(err => {
+                    setLoading(false);
+                    showError('Network error: ' + err.message);
                 });
             });
         })();

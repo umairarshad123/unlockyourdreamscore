@@ -52,4 +52,9 @@ return [
         'base_url'   => env('CRC_BASE_URL', 'https://app.creditrepaircloud.com/api'),
     ],
 
+    'google' => [
+        // Google Apps Script web-app /exec URL that appends each order as a sheet row.
+        'sheets_webhook_url' => env('GOOGLE_SHEETS_WEBHOOK_URL'),
+    ],
+
 ];
