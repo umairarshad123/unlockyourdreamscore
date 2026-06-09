@@ -35,6 +35,11 @@ class AcceptJsPaymentController extends Controller
                 'recurring' => null,
                 'label'     => 'Fast Sweep (Couple Special)',
             ],
+            'starter' => [
+                'amount'    => '5.00',
+                'recurring' => null,
+                'label'     => 'Starter Plan',
+            ],
         ];
     }
 
@@ -85,7 +90,7 @@ class AcceptJsPaymentController extends Controller
             'expMonth'         => 'required|string|size:2',
             'expYear'          => 'required|string|size:4',
             'cardCode'         => 'required|string|min:3|max:4',
-            'selected_plan'    => 'required|string|in:monthly,onetime,couple',
+            'selected_plan'    => 'required|string|in:monthly,onetime,couple,starter',
             'agree_terms'      => 'required|accepted',
         ]);
 

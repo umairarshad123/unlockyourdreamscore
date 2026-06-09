@@ -35,7 +35,7 @@ Route::view('/disclaimer', 'disclaimer')->name('disclaimer');
 Route::get('/checkout/success', [AcceptJsPaymentController::class, 'showSuccess'])->name('checkout.success');
 Route::post('/checkout/process', [AcceptJsPaymentController::class, 'processPayment'])->name('checkout.process');
 Route::get('/checkout/{plan}', [AcceptJsPaymentController::class, 'showCheckout'])
-    ->where('plan', 'monthly|onetime|couple')
+    ->where('plan', 'monthly|onetime|couple|starter')
     ->name('checkout.show');
 
 // Lead capture (GHL only)
