@@ -179,20 +179,26 @@ class AcceptJsPaymentController extends Controller
             $txCode        = data_get($responseData, 'transactionResponse.responseCode');
             $transId       = data_get($responseData, 'transactionResponse.transId');
             $authCode      = data_get($responseData, 'transactionResponse.authCode');
-            // Authorize.Net returns the card already masked (e.g. "XXXX1111") + brand.
-            // We never see/store the raw PAN, expiry or CVV — Accept.js keeps those tokenized.
+            // Authorize.Net echoes the card masked (e.g. "XXXX1111") + brand in the response.
             $cardMasked    = data_get($responseData, 'transactionResponse.accountNumber');
             $cardType      = data_get($responseData, 'transactionResponse.accountType');
-            $messageText   = data_get($responseData, 'transactionResponse.messages.0.description')
+            // On a DECLINE/ERROR/HELD the real reason is in transactionResponse.errors —
+            // the envelope (messages.message) can still read "Successful." even though the
+            // charge failed, so check the transaction-level error FIRST.
+            $messageText   = data_get($responseData, 'transactionResponse.errors.0.errorText')
+                ?? data_get($responseData, 'transactionResponse.messages.0.description')
                 ?? data_get($responseData, 'messages.message.0.text')
                 ?? 'Payment failed.';
 
             Log::info('Authorize.Net response', [
                 'invoice'    => $invoiceNumber,
+                'environment'=> $environment,
+                'endpoint'   => $endpoint,
                 'resultCode' => $resultCode,
                 'txCode'     => $txCode,
                 'transId'    => $transId,
                 'message'    => $messageText,
+                'errors'     => data_get($responseData, 'transactionResponse.errors'),
             ]);
 
             if ($resultCode !== 'Ok' || $txCode !== '1') {
