@@ -8,17 +8,22 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #008eaa;
-            --primary-dark: #007899;
-            --background: #fefefe;
-            --text-dark: #2c3e50;
-            --text-medium: #5a6c7d;
-            --success: #28a745;
+            --gold:        #c9a84c;
+            --gold-light:  #dfc070;
+            --gold-dim:    rgba(201,168,76,0.12);
+            --dark:        #080808;
+            --dark-card:   #111111;
+            --dark-card2:  #191919;
+            --border:      rgba(255,255,255,0.08);
+            --border-gold: rgba(201,168,76,0.30);
+            --white:       #ffffff;
+            --gray:        #a0a0a0;
+            --success:     #4ade80;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, var(--background) 0%, rgba(0, 142, 170, 0.05) 100%);
-            color: var(--text-dark);
+            background: var(--dark);
+            color: var(--white);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -26,12 +31,13 @@
             padding: 40px 20px;
         }
         .success-card {
-            background: #fff;
+            background: var(--dark-card);
+            border: 1px solid var(--border-gold);
             max-width: 560px;
             width: 100%;
             padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
         .success-icon {
@@ -39,7 +45,7 @@
             height: 80px;
             margin: 0 auto 24px;
             border-radius: 50%;
-            background: rgba(40, 167, 69, 0.12);
+            background: rgba(74, 222, 128, 0.12);
             color: var(--success);
             display: flex;
             align-items: center;
@@ -49,20 +55,21 @@
         h1 {
             font-size: 30px;
             font-weight: 900;
-            color: var(--text-dark);
+            color: var(--white);
             margin-bottom: 12px;
+            letter-spacing: -0.5px;
         }
         .lead {
-            color: var(--text-medium);
+            color: var(--gray);
             font-size: 16px;
             margin-bottom: 32px;
             line-height: 1.6;
         }
-        .lead strong { color: var(--text-dark); }
+        .lead strong { color: var(--white); }
         .receipt {
-            background: rgba(0, 142, 170, 0.04);
-            border: 1px solid rgba(0, 142, 170, 0.12);
-            border-radius: 14px;
+            background: var(--dark-card2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             padding: 22px;
             text-align: left;
             margin-bottom: 28px;
@@ -72,17 +79,17 @@
             justify-content: space-between;
             padding: 8px 0;
             font-size: 14px;
-            color: var(--text-medium);
+            color: var(--gray);
         }
-        .receipt-row + .receipt-row { border-top: 1px solid rgba(0, 142, 170, 0.1); }
+        .receipt-row + .receipt-row { border-top: 1px solid var(--border); }
         .receipt-row .label { font-weight: 600; }
         .receipt-row .value {
-            color: var(--text-dark);
+            color: var(--white);
             font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
             font-size: 13px;
         }
         .receipt-row.total .value {
-            color: var(--primary);
+            color: var(--gold);
             font-weight: 900;
             font-family: inherit;
             font-size: 18px;
@@ -92,35 +99,36 @@
             margin-bottom: 28px;
         }
         .next-steps h3 {
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--primary);
-            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--gold);
+            font-weight: 800;
             margin-bottom: 12px;
         }
         .next-steps ol {
             padding-left: 20px;
-            color: var(--text-medium);
+            color: var(--gray);
             font-size: 14px;
             line-height: 1.7;
         }
         .home-btn {
             display: inline-block;
-            background: var(--primary);
-            color: #fff;
+            background: var(--gold);
+            color: #000;
             text-decoration: none;
             padding: 14px 28px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 15px;
-            letter-spacing: 0.5px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
             transition: all .25s ease;
         }
         .home-btn:hover {
-            background: var(--primary-dark);
+            background: var(--gold-light);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 142, 170, 0.3);
+            box-shadow: 0 8px 24px rgba(201, 168, 76, 0.35);
         }
     </style>
 </head>

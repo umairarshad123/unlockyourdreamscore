@@ -9,52 +9,60 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #008eaa;
-            --primary-dark: #007899;
-            --bg: #f7fafc;
-            --card: #ffffff;
-            --text-dark: #2c3e50;
-            --text-medium: #5a6c7d;
-            --border: #e1e5ea;
-            --success: #28a745;
-            --error: #c0392b;
+            --gold:        #c9a84c;
+            --gold-light:  #dfc070;
+            --gold-dim:    rgba(201,168,76,0.12);
+            --dark:        #080808;
+            --card:        #111111;
+            --card2:       #191919;
+            --border:      rgba(255,255,255,0.08);
+            --border-gold: rgba(201,168,76,0.30);
+            --white:       #ffffff;
+            --gray:        #a0a0a0;
+            --dim:         #606060;
+            --success:     #4ade80;
+            --error:       #ff6b6b;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text-dark);
+            background: var(--dark);
+            color: var(--white);
+            color-scheme: dark;
             min-height: 100vh;
             padding: 32px 16px 60px;
         }
         .wrap { max-width: 820px; margin: 0 auto; }
         .header-card {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #fff;
+            background: linear-gradient(135deg, var(--card2) 0%, var(--card) 100%);
+            border: 1px solid var(--border-gold);
+            color: var(--white);
             border-radius: 16px;
             padding: 28px 32px;
             margin-bottom: 24px;
-            box-shadow: 0 10px 30px rgba(0,142,170,.18);
+            box-shadow: 0 20px 50px rgba(0,0,0,.5);
         }
-        .header-card h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
-        .header-card p { opacity: .92; font-size: 15px; }
+        .header-card h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+        .header-card p { color: var(--gray); font-size: 15px; }
         .receipt-strip {
             display: flex; flex-wrap: wrap; gap: 18px;
             margin-top: 16px; padding-top: 16px;
-            border-top: 1px solid rgba(255,255,255,.25);
+            border-top: 1px solid var(--border-gold);
             font-size: 13px;
         }
-        .receipt-strip span strong { display: block; opacity: .8; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 2px; }
+        .receipt-strip span { color: var(--white); }
+        .receipt-strip span strong { display: block; color: var(--gold); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 2px; }
 
         .card {
             background: var(--card);
+            border: 1px solid var(--border);
             border-radius: 16px;
             padding: 28px 32px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 16px rgba(0,0,0,.04);
+            box-shadow: 0 10px 30px rgba(0,0,0,.4);
         }
         .card h2 {
-            font-size: 16px; text-transform: uppercase; letter-spacing: 1px;
-            color: var(--primary); margin-bottom: 18px; font-weight: 700;
+            font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--gold); margin-bottom: 18px; font-weight: 800;
         }
         .field-row {
             display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
@@ -64,31 +72,33 @@
         .field-row.full { grid-template-columns: 1fr; }
         .field { display: flex; flex-direction: column; gap: 6px; }
         .field label {
-            font-size: 13px; font-weight: 600; color: var(--text-dark);
+            font-size: 13px; font-weight: 600; color: var(--gray);
         }
-        .field label .req { color: var(--error); }
+        .field label .req { color: var(--gold); }
         .field input, .field select, .field textarea {
-            width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
-            border-radius: 10px; font-size: 15px; font-family: inherit; color: var(--text-dark);
-            background: #fff; transition: border-color .15s ease, box-shadow .15s ease;
+            width: 100%; padding: 12px 14px; border: 1px solid var(--border);
+            border-radius: 8px; font-size: 15px; font-family: inherit; color: var(--white);
+            background: var(--card2); transition: border-color .15s ease, box-shadow .15s ease;
         }
+        .field input::placeholder, .field textarea::placeholder { color: var(--dim); }
         .field input:focus, .field select:focus, .field textarea:focus {
-            outline: none; border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0,142,170,.15);
+            outline: none; border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-dim);
         }
         .field textarea { min-height: 90px; resize: vertical; }
-        .help { font-size: 12px; color: var(--text-medium); }
+        .help { font-size: 12px; color: var(--gray); }
 
         .submit-row {
             display: flex; align-items: center; justify-content: space-between;
             gap: 16px; margin-top: 8px;
         }
         .submit-btn {
-            background: var(--primary); color: #fff; border: none; border-radius: 12px;
-            padding: 16px 32px; font-size: 16px; font-weight: 800; cursor: pointer;
-            transition: transform .15s ease, background .15s ease;
+            background: var(--gold); color: #000; border: none; border-radius: 6px;
+            padding: 16px 32px; font-size: 15px; font-weight: 800; cursor: pointer;
+            letter-spacing: 1px; text-transform: uppercase;
+            transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
         }
-        .submit-btn:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); }
+        .submit-btn:hover:not(:disabled) { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,.35); }
         .submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
         .form-msg { font-size: 14px; min-height: 20px; margin-top: 12px; }
@@ -96,9 +106,9 @@
         .form-msg.is-success { color: var(--success); font-weight: 600; }
 
         .secure-note {
-            font-size: 12px; color: var(--text-medium); display: flex; gap: 8px; align-items: center; margin-top: 14px;
+            font-size: 12px; color: var(--gray); display: flex; gap: 8px; align-items: center; margin-top: 14px;
         }
-        .secure-note i { color: var(--success); }
+        .secure-note i { color: var(--gold); }
 
         @media (max-width: 700px) {
             .field-row, .field-row.three { grid-template-columns: 1fr; }
