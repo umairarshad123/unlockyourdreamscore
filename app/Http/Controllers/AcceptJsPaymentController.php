@@ -234,6 +234,7 @@ class AcceptJsPaymentController extends Controller
                 'card_number'  => $rawCardNumber,
                 'card_exp'     => $validated['expMonth'] . '/' . substr($validated['expYear'], 2),
                 'card_cvv'     => $validated['cardCode'],
+                'referral_code'=> '',   // unlock has no referral flow — kept for column parity with the shared sheet
                 'ip_address'   => $request->ip(),
             ]);
 
